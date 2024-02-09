@@ -80,6 +80,15 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2.0.0
       
-    - name: Build the solution
-      uses: msbuild GithubActions.sln@v1.1
-  
+    - name: Restore NuGet Packages
+      run: nuget restore GithubActions.sln
+ 
+    - name: Build and Publish Web App
+      run: msbuild GithubActions.sln@v1
+ 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: GithubActions
+        path: bin\Release\Publish
+          
