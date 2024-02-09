@@ -81,5 +81,5 @@ jobs:
       uses: NuGet/setup-nuget@v2.0.0
       
     - name: Build the solution
-      uses: GZGavinZhao/setup-solbuild@v1.1
+      uses: GithubActions.sln@v1.1
   
