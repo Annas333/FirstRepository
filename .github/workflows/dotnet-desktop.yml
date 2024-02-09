@@ -81,5 +81,5 @@ jobs:
       uses: NuGet/setup-nuget@v2.0.0
       
     - name: Build the solution
-      uses: GithubActions.sln@v1.1
+      uses: FirstRepository/GithubActions.sln@v1.1
   
