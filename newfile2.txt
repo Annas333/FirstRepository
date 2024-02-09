@@ -1,1 +1,0 @@
-Hellow, welcome to asp.net core tutorial
