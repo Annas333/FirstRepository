@@ -1,0 +1,8 @@
+F:\Console\GithubActions\FirstRepository\obj\Debug\GithubActions.csproj.AssemblyReference.cache
+F:\Console\GithubActions\FirstRepository\obj\Debug\GithubActions.csproj.SuggestedBindingRedirects.cache
+F:\Console\GithubActions\FirstRepository\obj\Debug\GithubActions.csproj.CoreCompileInputs.cache
+F:\Console\GithubActions\FirstRepository\bin\Debug\GithubActions.exe.config
+F:\Console\GithubActions\FirstRepository\bin\Debug\GithubActions.exe
+F:\Console\GithubActions\FirstRepository\bin\Debug\GithubActions.pdb
+F:\Console\GithubActions\FirstRepository\obj\Debug\GithubActions.exe
+F:\Console\GithubActions\FirstRepository\obj\Debug\GithubActions.pdb
