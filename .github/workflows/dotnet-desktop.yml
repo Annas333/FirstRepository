@@ -84,7 +84,7 @@ jobs:
       run: nuget restore GithubActions.sln
  
     - name: Build and Publish Web App
-      run: msbuild GithubActions.sln@v1
+      run: msbuild GithubActions.sln
  
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
