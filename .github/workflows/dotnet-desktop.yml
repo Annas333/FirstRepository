@@ -1,61 +1,36 @@
-name: "build-test-dev"
+name: build-and-test-workflow
+
 on:
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '*.md'
   push:
-    branches:
-      - main
-    paths-ignore:
-      - '*.md'
-  
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.1.1
 
-    - name: Setup MSBuild (vswhere-path)
-      id: setup_msbuild_explicit
-      uses: ./
-      with:
-        vswhere-path: F:\Console\ConsoleApp\GithubActions\bin\Debug
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3.1
+      
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1.2
+      
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.2.0
 
-    - name: Setup MSBuild (PATH)
-      id: setup_msbuild_path
-      uses: ./
+    - name: Restore NuGet packages
+      run: nuget restore GithubActions.sln
 
-    - name: Setup MSBuild (fallback)
-      id: setup_msbuild_fallback
-      uses: ./
+    - name: Build GithubActions for Release
+      run: msbuild GithubActions.sln -property:Configuration=Release -property:platform="Any CPU"
+      
+    - name: Run Tests
+      run: vstest.console.exe .\GithubActions\bin\Release\GithubActions.dll
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
       env:
-        PATH: ''
-
-    - name: Setup MSBuild (x64)
-      if: always()
-      id: setup_msbuild_path_x64
-      uses: ./
-      with:
-        vs-prerelease: true
-        msbuild-architecture: 'x64'
-
-    - name: Setup MSBuild (arm64)
-      if: always()
-      id: setup_msbuild_path_arm
-      uses: ./
-      with:
-        vs-prerelease: true
-        msbuild-architecture: 'arm64'
-
-    - name: echo msbuild path
-      run: |
-        echo "vswhere-path: ${{ steps.setup_msbuild_explicit.outputs.msbuildPath }}"
-        echo "PATH: ${{ steps.setup_msbuild_path.outputs.msbuildPath }}"
-        echo "ARM PATH: ${{ steps.setup_msbuild_path_arm.outputs.msbuildPath }}"
-        echo "ARM PATH: ${{ steps.setup_msbuild_path_x64.outputs.msbuildPath }}"
-        echo "Fallback: ${{ steps.setup_msbuild_fallback.outputs.msbuildPath }}"
-
-    - name: echo MSBuild
-      run: msbuild -version
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
